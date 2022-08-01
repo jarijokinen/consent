@@ -1,0 +1,16 @@
+{
+  "name": "@jarijokinen/consent",
+  "version": "0.0.1",
+  "description": "A zero-dependency, vanilla JavaScript consent manager with native Consent Mode support.",
+  "main": "src/consent.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jarijokinen/consent.git"
+  },
+  "author": "Jari Jokinen",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jarijokinen/consent/issues"
+  },
+  "homepage": "https://github.com/jarijokinen/consent#readme"
+}
