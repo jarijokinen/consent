@@ -84,7 +84,8 @@ export const consent = (options) => {
   };
 
   const createDialog = () => {
-    const fields = document.createElement('div');
+    dialog.innerHTML = opts.dialogMarkup;
+
     Object.keys(opts.storages).forEach((storage) => {
       const fieldset = document.createElement('fieldset');
       const checkbox = document.createElement('input');
@@ -99,10 +100,9 @@ export const consent = (options) => {
       label.innerText = opts.storages[storage];
       fieldset.appendChild(checkbox);
       fieldset.appendChild(label);
-      fields.appendChild(fieldset);
+      dialog.querySelector('.consent-fields').appendChild(fieldset);
     });
 
-    const buttons = document.createElement('div');
     Object.keys(opts.actions).forEach((action) => {
       const button = document.createElement('input');
       button.setAttribute('type', 'button');
@@ -145,12 +145,9 @@ export const consent = (options) => {
           break;
       }
 
-      buttons.appendChild(button);
+      dialog.querySelector('.consent-buttons').appendChild(button);
     });
 
-    dialog.innerHTML = opts.dialogMarkup;
-    dialog.querySelector('.consent-fields').appendChild(fields);
-    dialog.querySelector('.consent-buttons').appendChild(buttons);
     document.querySelector('body').appendChild(dialog);
   };
 
