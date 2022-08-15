@@ -35,26 +35,13 @@ export const consent = (options) => {
   let dialog = document.createElement('div');
   dialog.classList.add(opts.dialogClass);
 
-  const getCookie = (name) => {
-    const parts = ('; ' + document.cookie).split('; ' + name + '=');
-    return parts.length == 2 ? parts.pop().split(';').shift() : undefined;
-  };
-
-  const setCookie = (name, value) => {
-    let expires = new Date();
-    expires.setTime(expires.getTime() + 356 * 86400000);
-    document.cookie =
-      name + '=' + value + ';expires=' + expires.toUTCString() + ';path=/';
-  };
-
   const getConsent = (storage) => {
-    return getCookie('consent_' + storage);
+    return localStorage.getItem('consent_' + storage);
   };
 
   const updateConsent = () => {
     Object.keys(opts.storages).forEach((storage) => {
-      const cookieName = 'consent_' + storage;
-      setCookie(cookieName, consentState[storage]);
+      localStorage.setItem('consent_' + storage, consentState[storage]);
     });
 
     if (typeof gtag === 'function') {
@@ -71,9 +58,8 @@ export const consent = (options) => {
 
   const loadConsentState = () => {
     Object.keys(opts.storages).forEach((storage) => {
-      const cookieName = 'consent_' + storage;
-      consentState[storage] = getCookie(cookieName) || undefined;
-      if (consentState[storage] === undefined) {
+      consentState[storage] = getConsent(storage);
+      if (consentState[storage] === null) {
         showDialog();
       }
     });
