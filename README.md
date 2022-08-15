@@ -15,13 +15,22 @@ Yarn:
 
 ## Usage
 
+Initialization:
+
     import { consent } from '@jarijokinen/consent';
 
     document.addEventListener('DOMContentLoaded', () => {
       consent();
     });
 
+Add link that opens the dialog:
+
+    <a href="#" class="consent-settings-link">Cookie Settings</a>
+
 ## Configuration
+
+Customize configuration options by passing some or all of them as a first
+argument to the consent() function.
 
     const options = {
       storages: {
@@ -34,15 +43,13 @@ Yarn:
         allowAll: 'Allow All'
       },
       dialogMarkup: `
-        <h2>Cookies</h2>
-        <p>
-          We would like to get your permission to use cookies for these purposes:
-        </p>
-        <form>
-          <div class="consent-fields"></div>
-          <div class="consent-buttons"></div>
-        </form>
+        <h2 class="consent-title"></h2>
+        <div class="consent-message"></div>
+        <div class="consent-fields"></div>
+        <div class="consent-buttons"></div>
       `,
+      dialogTitle: 'Cookies',
+      dialogMessage: 'We would like to get your permission to use cookies for:',
       dialogClass: 'consent',
       settingsLinkSelector: '.consent-settings-link'
     };

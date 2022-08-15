@@ -10,15 +10,13 @@ export const consent = (options) => {
       allowAll: 'Allow All'
     },
     dialogMarkup: `
-      <h2>Cookies</h2>
-      <p>
-        We would like to get your permission to use cookies for these purposes:
-      </p>
-      <form>
-        <div class="consent-fields"></div>
-        <div class="consent-buttons"></div>
-      </form>
+      <h2 class="consent-title"></h2>
+      <div class="consent-message"></div>
+      <div class="consent-fields"></div>
+      <div class="consent-buttons"></div>
     `,
+    dialogTitle: 'Cookies',
+    dialogMessage: 'We would like to get your permission to use cookies for:',
     dialogClass: 'consent',
     settingsLinkSelector: '.consent-settings-link',
     ...options
@@ -71,6 +69,8 @@ export const consent = (options) => {
 
   const createDialog = () => {
     dialog.innerHTML = opts.dialogMarkup;
+    dialog.querySelector('.consent-title').innerText = opts.dialogTitle;
+    dialog.querySelector('.consent-message').innerText = opts.dialogMessage;
 
     Object.keys(opts.storages).forEach((storage) => {
       const fieldset = document.createElement('fieldset');
