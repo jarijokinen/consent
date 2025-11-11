@@ -53,9 +53,10 @@ argument to the consent() function.
       dialogClass: 'consent',
       settingsLinkSelector: '.consent-settings-link',
       countryCookie: 'cf_country',
-      countries: ['AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR',
+      countries: ['AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 
                   'DE', 'GR', 'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL',
-                  'PL', 'PT', 'RO', 'SK', 'SI', 'ES', 'SE', 'IS', 'LI', 'NO']
+                  'PL', 'PT', 'RO', 'SK', 'SI', 'ES', 'SE', 'IS', 'LI', 'NO',
+                  'GB', 'CH', 'MC', 'SM', 'VA', 'JE', 'GG', 'IM']
     };
 
     consent(options);

@@ -20,9 +20,10 @@ export const consent = (options) => {
     dialogClass: 'consent',
     settingsLinkSelector: '.consent-settings-link',
     countryCookie: 'cf_country',
-    countries: ['AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR',
+    countries: ['AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 
                 'DE', 'GR', 'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL',
-                'PL', 'PT', 'RO', 'SK', 'SI', 'ES', 'SE', 'IS', 'LI', 'NO'],
+                'PL', 'PT', 'RO', 'SK', 'SI', 'ES', 'SE', 'IS', 'LI', 'NO',
+                'GB', 'CH', 'MC', 'SM', 'VA', 'JE', 'GG', 'IM'],
     ...options
   };
 
@@ -38,7 +39,9 @@ export const consent = (options) => {
   dialog.classList.add(opts.dialogClass);
 
   const detectCountry = () => {
-    const country = document.cookie.split('; ').find(r => r.startsWith(opts.countryCookie + '='))?.split('=')[1];
+    const country = document.cookie.split('; ').find(r => 
+      r.startsWith(opts.countryCookie + '=')
+    )?.split('=')[1];
     if (country ? opts.countries.includes(country) : true) {
       return;
     }
@@ -46,8 +49,6 @@ export const consent = (options) => {
       consentState[storage] = 'granted';
     });
     updateConsent();
-    updateFields();
-    hideDialog();
   };
 
   const getConsent = (storage) => {
@@ -167,7 +168,7 @@ export const consent = (options) => {
     showDialog();
   };
 
+  detectCountry();
   loadConsentState();
   createDialog();
-  detectCountry();
 };
