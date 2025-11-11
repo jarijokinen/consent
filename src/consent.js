@@ -39,17 +39,15 @@ export const consent = (options) => {
 
   const detectCountry = () => {
     const country = document.cookie.split('; ').find(r => r.startsWith(opts.countryCookie + '='))?.split('=')[1];
-    if ((country ? opts.countries.include(country) : true)) {
-
+    if (country ? opts.countries.includes(country) : true) {
+      return;
     }
-    else {
-      Object.keys(opts.storages).forEach((storage) => {
-        consentState[storage] = 'granted';
-      });
-      updateConsent();
-      updateFields();
-      hideDialog();
-    }
+    Object.keys(opts.storages).forEach((storage) => {
+      consentState[storage] = 'granted';
+    });
+    updateConsent();
+    updateFields();
+    hideDialog();
   };
 
   const getConsent = (storage) => {
