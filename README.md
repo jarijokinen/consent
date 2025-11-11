@@ -51,13 +51,17 @@ argument to the consent() function.
       dialogTitle: 'Cookies',
       dialogMessage: 'We would like to get your permission to use cookies for:',
       dialogClass: 'consent',
-      settingsLinkSelector: '.consent-settings-link'
+      settingsLinkSelector: '.consent-settings-link',
+      countryCookie: 'cf_country',
+      countries: ['AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR',
+                  'DE', 'GR', 'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL',
+                  'PL', 'PT', 'RO', 'SK', 'SI', 'ES', 'SE', 'IS', 'LI', 'NO']
     };
 
     consent(options);
 
 ## License
 
-MIT License. Copyright (c) 2022 [Jari Jokinen](https://jarijokinen.com).  See
-[LICENSE](https://github.com/jarijokinen/consent/blob/main/LICENSE.txt)
+MIT License. Copyright (c) 2022 - 2025 [Jari Jokinen](https://jarijokinen.com).
+See [LICENSE](https://github.com/jarijokinen/consent/blob/main/LICENSE.txt)
 for further details.

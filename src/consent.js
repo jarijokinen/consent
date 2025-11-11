@@ -19,6 +19,10 @@ export const consent = (options) => {
     dialogMessage: 'We would like to get your permission to use cookies for:',
     dialogClass: 'consent',
     settingsLinkSelector: '.consent-settings-link',
+    countryCookie: 'cf_country',
+    countries: ['AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR',
+                'DE', 'GR', 'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL',
+                'PL', 'PT', 'RO', 'SK', 'SI', 'ES', 'SE', 'IS', 'LI', 'NO'],
     ...options
   };
 
@@ -32,6 +36,21 @@ export const consent = (options) => {
 
   let dialog = document.createElement('div');
   dialog.classList.add(opts.dialogClass);
+
+  const detectCountry = () => {
+    const country = document.cookie.split('; ').find(r => r.startsWith(opts.countryCookie + '='))?.split('=')[1];
+    if ((country ? opts.countries.include(country) : true)) {
+
+    }
+    else {
+      Object.keys(opts.storages).forEach((storage) => {
+        consentState[storage] = 'granted';
+      });
+      updateConsent();
+      updateFields();
+      hideDialog();
+    }
+  };
 
   const getConsent = (storage) => {
     return localStorage.getItem('consent_' + storage);
@@ -152,4 +171,5 @@ export const consent = (options) => {
 
   loadConsentState();
   createDialog();
+  detectCountry();
 };
