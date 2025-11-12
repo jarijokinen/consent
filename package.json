@@ -12,5 +12,8 @@
   "bugs": {
     "url": "https://github.com/jarijokinen/consent/issues"
   },
-  "homepage": "https://github.com/jarijokinen/consent#readme"
+  "homepage": "https://github.com/jarijokinen/consent#readme",
+  "publishConfig": {
+    "access": "public"
+  }
 }
