@@ -1,6 +1,6 @@
 {
   "name": "@jarijokinen/consent",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "A zero-dependency, vanilla JavaScript consent manager with native Google Consent Mode v2 support.",
   "main": "src/consent.js",
   "repository": {

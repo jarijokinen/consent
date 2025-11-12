@@ -5,9 +5,9 @@ export const consent = (options) => {
       ad_storage: 'Marketing'
     },
     actions: {
-      allowAll: 'Allow All',
+      denyAll: 'Deny All',
       allowSelected: 'Allow Selected',
-      denyAll: 'Deny All'
+      allowAll: 'Allow All'
     },
     dialogMarkup: `
       <h2 class="consent-title"></h2>
