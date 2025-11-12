@@ -1,7 +1,7 @@
 # consent
 
-A zero-dependency, vanilla JavaScript consent manager with native Consent Mode
-support.
+A zero-dependency, vanilla JavaScript consent manager with native Google
+Consent Mode v2 support.
 
 ## Installation
 
@@ -9,13 +9,18 @@ NPM:
 
     npm install @jarijokinen/consent
 
-Yarn:
-
-    yarn add @jarijokinen/consent
-
 ## Usage
 
-Initialization:
+Load the consent-loader.js in the HEAD section deferred before any GTM tags.
+
+    <head>
+      <script src="path/to/consent-loader.js" defer></script>
+      <script>
+        // GTM and any other scripts
+      </script>
+    </head>
+
+Import consent from the npm package and initialize it later on the page.
 
     import { consent } from '@jarijokinen/consent';
 
@@ -25,7 +30,7 @@ Initialization:
 
 Add link that opens the dialog:
 
-    <a href="#" class="consent-settings-link">Cookie Settings</a>
+    <a href="#" class="consent-settings">Cookie Settings</a>
 
 ## Configuration
 
@@ -48,15 +53,10 @@ argument to the consent() function.
         <div class="consent-fields"></div>
         <div class="consent-buttons"></div>
       `,
-      dialogTitle: 'Cookies',
-      dialogMessage: 'We would like to get your permission to use cookies for:',
       dialogClass: 'consent',
-      settingsLinkSelector: '.consent-settings-link',
-      countryCookie: 'cf_country',
-      countries: ['AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 
-                  'DE', 'GR', 'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL',
-                  'PL', 'PT', 'RO', 'SK', 'SI', 'ES', 'SE', 'IS', 'LI', 'NO',
-                  'GB', 'CH', 'MC', 'SM', 'VA', 'JE', 'GG', 'IM']
+      dialogTitle: 'Cookie Consent',
+      dialogMessage: 'This website uses cookies for:',
+      settingsLinkSelector: '.consent-settings'
     };
 
     consent(options);

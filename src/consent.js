@@ -5,9 +5,9 @@ export const consent = (options) => {
       ad_storage: 'Marketing'
     },
     actions: {
-      denyAll: 'Deny All',
+      allowAll: 'Allow All',
       allowSelected: 'Allow Selected',
-      allowAll: 'Allow All'
+      denyAll: 'Deny All'
     },
     dialogMarkup: `
       <h2 class="consent-title"></h2>
@@ -15,75 +15,17 @@ export const consent = (options) => {
       <div class="consent-fields"></div>
       <div class="consent-buttons"></div>
     `,
-    dialogTitle: 'Cookies',
-    dialogMessage: 'We would like to get your permission to use cookies for:',
     dialogClass: 'consent',
-    settingsLinkSelector: '.consent-settings-link',
-    countryCookie: 'cf_country',
-    countries: ['AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 
-                'DE', 'GR', 'HU', 'IE', 'IT', 'LV', 'LT', 'LU', 'MT', 'NL',
-                'PL', 'PT', 'RO', 'SK', 'SI', 'ES', 'SE', 'IS', 'LI', 'NO',
-                'GB', 'CH', 'MC', 'SM', 'VA', 'JE', 'GG', 'IM'],
+    dialogTitle: 'Cookie Consent',
+    dialogMessage: 'This website uses cookies for:',
+    settingsLinkSelector: '.consent-settings',
     ...options
   };
-
-  let consentState = {
-    ad_storage: 'denied',
-    analytics_storage: 'denied',
-    functionality_storage: 'denied',
-    personalization_storage: 'denied',
-    security_storage: 'denied'
-  };
+  
+  function gtag() { dataLayer.push(arguments); }
 
   let dialog = document.createElement('div');
   dialog.classList.add(opts.dialogClass);
-
-  const detectCountry = () => {
-    const country = document.cookie.split('; ').find(r => 
-      r.startsWith(opts.countryCookie + '=')
-    )?.split('=')[1];
-    if (country ? opts.countries.includes(country) : true) {
-      return;
-    }
-    Object.keys(opts.storages).forEach((storage) => {
-      consentState[storage] = 'granted';
-    });
-    updateConsent();
-  };
-
-  const getConsent = (storage) => {
-    return localStorage.getItem('consent_' + storage);
-  };
-
-  const updateConsent = () => {
-    Object.keys(opts.storages).forEach((storage) => {
-      localStorage.setItem('consent_' + storage, consentState[storage]);
-    });
-
-    if (typeof gtag === 'function') {
-      gtag('consent', 'update', consentState);
-    }
-  };
-
-  const updateFields = () => {
-    Object.keys(opts.storages).forEach((storage) => {
-      dialog.querySelector('#consent-field-' + storage).checked =
-        consentState[storage] == 'granted' ? true : false;
-    });
-  };
-
-  const loadConsentState = () => {
-    Object.keys(opts.storages).forEach((storage) => {
-      consentState[storage] = getConsent(storage);
-      if (consentState[storage] === null) {
-        showDialog();
-      }
-    });
-
-    if (typeof gtag === 'function') {
-      gtag('consent', 'update', consentState);
-    }
-  };
 
   const createDialog = () => {
     dialog.innerHTML = opts.dialogMarkup;
@@ -96,7 +38,7 @@ export const consent = (options) => {
       checkbox.setAttribute('type', 'checkbox');
       checkbox.setAttribute('name', 'consent-field-' + storage);
       checkbox.setAttribute('id', 'consent-field-' + storage);
-      if (getConsent(storage) === 'granted') {
+      if (window.consent.state[storage] === 'granted') {
         checkbox.setAttribute('checked', 'checked');
       }
       const label = document.createElement('label');
@@ -115,34 +57,31 @@ export const consent = (options) => {
       switch (action) {
         case 'denyAll':
           button.onclick = () => {
-            Object.keys(opts.storages).forEach((storage) => {
-              consentState[storage] = 'denied';
+            Object.keys(opts.storages).forEach(k => {
+              window.consent.state[k] = 'denied'
             });
-            updateConsent();
+            saveState();
             updateFields();
             hideDialog();
           };
           break;
         case 'allowSelected':
           button.onclick = () => {
-            Object.keys(opts.storages).forEach((storage) => {
-              consentState[storage] = document.querySelector(
-                '#consent-field-' + storage
-              ).checked
-                ? 'granted'
-                : 'denied';
+            Object.keys(opts.storages).forEach(k => {
+              const el = document.querySelector('#consent-field-' + k);
+              window.consent.state[k] = el.checked ? 'granted' : 'denied';
             });
-            updateConsent();
+            saveState();
             updateFields();
             hideDialog();
           };
           break;
         case 'allowAll':
           button.onclick = () => {
-            Object.keys(opts.storages).forEach((storage) => {
-              consentState[storage] = 'granted';
+            Object.keys(opts.storages).forEach(k => {
+              window.consent.state[k] = 'granted';
             });
-            updateConsent();
+            saveState();
             updateFields();
             hideDialog();
           };
@@ -155,6 +94,26 @@ export const consent = (options) => {
     document.querySelector('body').appendChild(dialog);
   };
 
+  const saveState = () => {
+    Object.keys(window.consent.state).forEach(k => {
+      try {
+        localStorage.setItem('consent_' + k, window.consent.state[k]);
+      }
+      catch (e) {
+        console.log('Unable to save consent to local storage');
+      }
+    });
+
+    gtag('consent', 'update', window.consent.state);
+  };
+
+  const updateFields = () => {
+    Object.keys(opts.storages).forEach(k => {
+      dialog.querySelector('#consent-field-' + k).checked = 
+        window.consent.state[k] === 'granted' ? true : false;
+    });
+  };
+
   const showDialog = () => {
     dialog.style.display = 'block';
   };
@@ -162,13 +121,18 @@ export const consent = (options) => {
   const hideDialog = () => {
     dialog.style.display = 'none';
   };
-
+  
   document.querySelector(opts.settingsLinkSelector).onclick = (ev) => {
     ev.preventDefault();
     showDialog();
   };
 
-  detectCountry();
-  loadConsentState();
   createDialog();
+
+  if (window.consent.consentMissing) {
+    showDialog();
+  }
+  else {
+    hideDialog();
+  }
 };
