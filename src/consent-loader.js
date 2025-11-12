@@ -33,6 +33,10 @@ const country = document.cookie.split(/(?:^|;\s*)cc=/).pop().split(';')[0]
 const countryDefault = !country || window.consent.countries.includes(country) 
   ? 'denied' : 'granted';
 
+if (countryDefault === 'granted') {
+  window.consent.consentMissing = false;
+}
+
 gtag('consent', 'default', {
   ...Object.fromEntries(Object.entries(window.consent.state).map(([k, v]) => 
     [k, v ?? countryDefault]))
