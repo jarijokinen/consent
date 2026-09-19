@@ -41,7 +41,8 @@ if (countryDefault === 'granted') {
   window.consent.consentMissing = false;
 }
 
-gtag('consent', 'default', {
-  ...Object.fromEntries(Object.entries(window.consent.state).map(([k, v]) => 
-    [k, v ?? countryDefault]))
+Object.keys(window.consent.state).forEach(k => {
+  window.consent.state[k] = window.consent.state[k] ?? countryDefault;
 });
+
+gtag('consent', 'default', { ...window.consent.state });
