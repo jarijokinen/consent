@@ -14,7 +14,7 @@ NPM:
 Load the consent-loader.js in the HEAD section deferred before any GTM tags.
 
     <head>
-      <script src="path/to/consent-loader.js" defer></script>
+      <script src="path/to/consent-loader.js"></script>
       <script>
         // GTM and any other scripts
       </script>
@@ -78,6 +78,6 @@ argument to the consent() function.
 
 ## License
 
-MIT License. Copyright (c) 2022 - 2025 [Jari Jokinen](https://jarijokinen.com).
+MIT License. Copyright (c) 2022 - 2026 [Jari Jokinen](https://jarijokinen.com).
 See [LICENSE](https://github.com/jarijokinen/consent/blob/main/LICENSE.txt)
 for further details.
