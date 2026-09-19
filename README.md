@@ -11,7 +11,7 @@ NPM:
 
 ## Usage
 
-Load the consent-loader.js in the HEAD section deferred before any GTM tags.
+Load the consent-loader.js in the HEAD section before any GTM tags.
 
     <head>
       <script src="path/to/consent-loader.js"></script>
@@ -44,7 +44,7 @@ The country cookie name defaults to `cc`. To use a different name, set
       window.consent = window.consent || {};
       window.consent.countryCookieName = 'country_code';
     </script>
-    <script src="path/to/consent-loader.js" defer></script>
+    <script src="path/to/consent-loader.js"></script>
 
 The cookie value should be a two-letter country code, such as `FI` or `US`.
 If the configured cookie is missing or empty, consent defaults to denied.
