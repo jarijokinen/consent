@@ -12,11 +12,11 @@ window.consent.consentMissing = true
 window.consent.state = {
   analytics_storage: null,
   ad_storage: null,
-  ad_user_data: null,
-  ad_personalization: null
+  ad_user_data: 'denied',
+  ad_personalization: 'denied'
 };
 
-Object.keys(window.consent.state).forEach(k => {
+['analytics_storage', 'ad_storage'].forEach(k => {
   try {
     const v = localStorage.getItem('consent_' + k);
     if (v === 'granted' || v === 'denied') {

@@ -95,6 +95,9 @@ export const consent = (options) => {
   };
 
   const saveState = () => {
+    window.consent.state.ad_user_data = 'denied';
+    window.consent.state.ad_personalization = 'denied';
+
     Object.keys(window.consent.state).forEach(k => {
       try {
         localStorage.setItem('consent_' + k, window.consent.state[k]);

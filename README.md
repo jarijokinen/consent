@@ -34,6 +34,9 @@ Add link that opens the dialog:
 
 ## Configuration
 
+`ad_user_data` and `ad_personalization` are always denied, regardless of
+country, saved preferences, or dialog selections (including Allow All).
+
 The country cookie name defaults to `cc`. To use a different name, set
 `window.consent.countryCookieName` before loading `consent-loader.js`:
 
