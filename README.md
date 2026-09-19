@@ -34,6 +34,18 @@ Add link that opens the dialog:
 
 ## Configuration
 
+The country cookie name defaults to `cc`. To use a different name, set
+`window.consent.countryCookieName` before loading `consent-loader.js`:
+
+    <script>
+      window.consent = window.consent || {};
+      window.consent.countryCookieName = 'country_code';
+    </script>
+    <script src="path/to/consent-loader.js" defer></script>
+
+The cookie value should be a two-letter country code, such as `FI` or `US`.
+If the configured cookie is missing or empty, consent defaults to denied.
+
 Customize configuration options by passing some or all of them as a first
 argument to the consent() function.
 

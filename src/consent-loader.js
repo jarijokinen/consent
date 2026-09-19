@@ -2,6 +2,7 @@ window.dataLayer = window.dataLayer || [];
 function gtag() { dataLayer.push(arguments); }
 
 window.consent = window.consent || {};
+window.consent.countryCookieName = window.consent.countryCookieName ?? 'cc';
 window.consent.countries = window.consent.countries || [
   'AT', 'BE', 'BG', 'HR', 'CY', 'CZ', 'DK', 'EE', 'FI', 'FR', 'DE', 'GR', 'HU',
   'IS', 'IE', 'IT', 'LV', 'LI', 'LT', 'LU', 'MT', 'NL', 'NO', 'PL', 'PT', 'RO',
@@ -28,8 +29,11 @@ Object.keys(window.consent.state).forEach(k => {
   }
 });
 
-const country = document.cookie.split(/(?:^|;\s*)cc=/).pop().split(';')[0]
-  .trim().toUpperCase();
+const countryCookie = document.cookie.split(';').map(cookie => cookie.trim())
+  .find(cookie => cookie.startsWith(window.consent.countryCookieName + '='));
+const country = countryCookie
+  ? countryCookie.slice(countryCookie.indexOf('=') + 1).trim().toUpperCase()
+  : '';
 const countryDefault = !country || window.consent.countries.includes(country) 
   ? 'denied' : 'granted';
 
